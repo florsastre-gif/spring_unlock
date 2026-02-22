@@ -12,10 +12,12 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# 2. Inicialización de API (Asegurate de tenerla en Secrets)
-try:
-    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
-    # Usamos 1.5-flash: es más rápido, barato y evita el error NotFound
+# --- 2. CREDENCIALES (BARRA LATERAL) ---
+with st.sidebar:
+    api_key = st.text_input("Ingresa tu Google API Key:", type="password")
+    if api_key:
+        # Inicializamos el cliente nativo de Google (sin LangChain)
+        client = genai.Client(api_key=api_key)
     model = genai.GenerativeModel('gemini-2.5-flash')
 except Exception as e:
     st.error("Error de configuración de API. Revisá tus Secrets.")
