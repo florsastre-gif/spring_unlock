@@ -1,21 +1,23 @@
 import streamlit as st
 import google.generativeai as genai
 
-st.set_page_config(page_title="SPRING UNLOCK 🧭", layout="centered")
+st.set_page_config(page_title="SPRING UNLOCK", page_icon="⚙️")
 
-st.markdown("""
-    <style>
-    .stAlert p { font-size: 16px; font-weight: 400; }
-    .main { max-width: 800px; }
-    </style>
-    """, unsafe_allow_html=True)
+with st.sidebar:
+    st.header("Configuración")
+    api_key = st.text_input("Google API Key", type="password")
 
+if not api_key:
+    st.warning("Ingresá tu Google API Key para continuar.")
+    st.stop()
+
+genai.configure(api_key=api_key)
+
+# Test rápido (para confirmar que la key está bien)
 try:
-    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
-    # Usamos 1.5-flash: es más rápido, barato y evita el error NotFound
-    model = genai.GenerativeModel('gemini-2.5-flash')
+    model = genai.GenerativeModel("gemini-1.5-flash")
 except Exception as e:
-    st.error("Error de configuración de API. Revisá tus Secrets.")
+    st.error("No pude inicializar el modelo. Revisá tu API Key.")
     st.stop()
 
 # 3. Interfaz de usuario (Brújula)
