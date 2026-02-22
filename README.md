@@ -1,7 +1,7 @@
 🧭 SPRING UNLOCK
 Diagnóstico operativo para emprendedores.
 
-Herramienta de la Agencia Spring que convierte el caos mental en una hoja de ruta táctica de lectura rápida (20 segundos).
+Herramienta que convierte el caos mental en una hoja de ruta táctica de lectura rápida (20 segundos).
 
 🚀 Inicio Rápido
 Instalá: pip install streamlit google-generativeai
