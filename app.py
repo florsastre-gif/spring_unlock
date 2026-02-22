@@ -1,34 +1,35 @@
 import streamlit as st
 import google.generativeai as genai
 
-st.set_page_config(page_title="SPRING UNLOCK", page_icon="⚙️")
+# 1. Configuración de página y estilo
+st.set_page_config(page_title="SPRING UNLOCK 🧭", layout="centered")
 
-with st.sidebar:
-    st.header("Configuración")
-    api_key = st.text_input("Google API Key", type="password")
+# Estilo personalizado para evitar párrafos densos
+st.markdown("""
+    <style>
+    .stAlert p { font-size: 16px; font-weight: 400; }
+    .main { max-width: 800px; }
+    </style>
+    """, unsafe_allow_html=True)
 
-if not api_key:
-    st.warning("Ingresá tu Google API Key para continuar.")
-    st.stop()
-
-genai.configure(api_key=api_key)
-
-# Test rápido (para confirmar que la key está bien)
+# 2. Inicialización de API (Asegurate de tenerla en Secrets)
 try:
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+    # Usamos 1.5-flash: es más rápido, barato y evita el error NotFound
+    model = genai.GenerativeModel('gemini-2.5-flash')
 except Exception as e:
-    st.error("No pude inicializar el modelo. Revisá tu API Key.")
+    st.error("Error de configuración de API. Revisá tus Secrets.")
     st.stop()
 
 # 3. Interfaz de usuario (Brújula)
 st.title("🧭 SPRING UNLOCK")
-st.write("De la nube de ideas a la acción")
+st.write("De la nube de ideas al mapa de hoy.")
 
 with st.form("diagnostico_form"):
-    nombre = st.text_input("Bienvenid@, ¿Cómo te llamás?", placeholder="Tu nombre")
+    nombre = st.text_input("¿Cómo te llamás?", placeholder="Tu nombre")
     negocio = st.text_input("¿De qué es tu negocio?", placeholder="Ej: Centro de Pilates")
-    caos = st.text_area("Descargá acá: ¿Qué tenés en la cabeza? (quiero lanzar promo, tengo muchas deudas, no se qué publicar...)", 
-                        placeholder="Mientras más claro me cuentes, mejor...")
+    caos = st.text_area("¿Qué tenés en la cabeza? (quiero lanzar una promo, tengo deudas, no sé qué publicar...)", 
+                        placeholder="Mientras más info, mejor puedo ayudarte...")
     
     boton = st.form_submit_button("Calibrar mi Brújula 🚀")
 
